@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Part3DemoCloudTut.Models.Venue>
+@{
+    var eventTypes = ViewData["EventTypes"] as List<Part3DemoCloudTut.Models.EventType>;
+}
+
+<h2>Venue Filtering</h2>
+
+<form method="get">
+    <label>Event Type:</label>
+    <select name="eventTypeId">
+        <option value="">-- All --</option>
+        @foreach (var type in eventTypes)
+        {
+            <option value="@type.EventTypeId">@type.Name</option>
+        }
+    </select>
+
+    <label>Availability:</label>
+    <select name="isAvailable">
+        <option value="">-- All --</option>
+        <option value="true">Yes</option>
+        <option value="false">No</option>
+    </select>
+
+    <label>Start Date:</label>
+    <input type="date" name="startDate" />
+
+    <label>End Date:</label>
+    <input type="date" name="endDate" />
+
+    <button type="submit">Filter</button>
+</form>
+
+<table class="table mt-4">
+    <thead>
+        <tr>
+            <th>Venue</th>
+            <th>Type</th>
+            <th>Available</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var v in Model)
+        {
+            <tr>
+                <td>@v.Name</td>
+                <td>@v.EventType.Name</td>
+                <td>@(v.IsAvailable ? "Yes" : "No")</td>
+                <td>@v.DateAvailable.ToShortDateString()</td>
+            </tr>
+        }
+    </tbody>
+</table>
